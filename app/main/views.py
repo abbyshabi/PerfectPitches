@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for, abort
 from . import main
-from ..models import User, Post
+from ..models import User, Post,Comment
 from .forms import PostForm
 from .. import db
 from flask_login import login_user, logout_user, login_required, current_user
@@ -12,17 +12,9 @@ import datetime
 def index():
     """View root page function that returns index page and the various news sources"""
 
-    title = 'Home- Welcome to Blogger'
+    title = 'Home- Welcome to Pitches'
 
     form = PostForm()
-
-    if form.validate_on_submit():
-        post = Post(body=form.body.data, author=current_user._get_current_object())
-        post.save_post()
-        return redirect(url_for('.index'))
-
-    posts = Post.query.order_by(Post.timestamp.desc()).all()
-
     return render_template('index.html', form=form, posts=posts)
 
 @main.route('/user/<uname>')
@@ -53,7 +45,12 @@ def update_profile(uname):
 
     return render_template('profile/update.html')
 
-@main.route('/pitch/<int:id>')
+@main.route('/pitch/<id>')
 def pitch(id):
-    post = Post.query.get_or_404(id)
-    return render_template('posts.html', posts=[post])
+    form = PostForm()
+    user=User.query.filter_by(id=id).first()
+    post = Post.query.filter_by(id=id).first()
+
+    comment= Comment.get_comments(id)
+    title = 'Pitchy-pitches'
+    return render_template('pitch.html', posts=[post])
