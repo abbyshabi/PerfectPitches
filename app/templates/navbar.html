@@ -9,12 +9,14 @@
         <h5> <i>Hit the home-run.....</i></h5>
     <!-- Float links to the right. Hide them on small screens -->
     <div class="w3-right w3-hide-small">
-      <a href="{{url_for('auth.login')}}">
-        <button type="click" name="button" class="btn btn-default btn-block" id="sign-in">SIGN IN</button>
-      </a>
-        <a href="{{url_for('auth.register')}}">
-        <button type="button" name="button" class="btn btn-default btn-block" id="register">REGISTER</button>
-      </a>
+      <ul class="nav navbar-nav navbar-right">
+        {% if current_user.is_authenticated %}
+        <li><a href="{{url_for('main.profile',uname=current_user.username)}}">Profile</a></li>
+        <li><a href="{{url_for('auth.logout')}}">Sign out</a></li>
+        {% else %}
+        <li><a href="{{url_for('auth.login')}}">Sign in</a></li>
+        {%endif%}
+      </ul>
     </div>
   </div>
 </div>

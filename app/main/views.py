@@ -13,7 +13,6 @@ def index():
     """View root page function that returns index page and the various news sources"""
 
     title = 'Home- Welcome to Pitches'
-
     form = PostForm()
     return render_template('index.html', form=form)
 
@@ -45,12 +44,14 @@ def update_profile(uname):
 
     return render_template('profile/update.html')
 
-@main.route('/pitch/<id>')
-def pitch(id):
-    form = PostForm()
+@main.route('/pitch/<category>')
+def pitch(category):
     user=User.query.filter_by(id=id).first()
-    post = Post.query.filter_by(id=id).first()
+    post = None
+   
+    if category == 'all':
+        post = Post.query.order_by(Post.date.desc())
+    else :
+        post = Post.query.filter_by(category = category).order_by(Post.time.desc()).all()
 
-    comment= Comment.get_comments(id)
-    title = 'Pitchy-pitches'
-    return render_template('pitch.html', posts=[post])
+    return render_template('pitch.html', post = post ,title = category.upper())

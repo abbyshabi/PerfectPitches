@@ -1,7 +1,7 @@
 from flask import render_template,redirect,url_for,flash,request
 from . import auth
 from flask_login import login_user,logout_user,login_required
-from ..models import User
+from ..models import User,Post
 from .forms import LoginForm,RegistrationForm
 from .. import db
 from ..email import mail_message
@@ -9,6 +9,7 @@ from ..email import mail_message
 @auth.route('/login',methods=['GET','POST'])
 def login():
     login_form = LoginForm()
+    category = None
     if login_form.validate_on_submit():
         user = User.query.filter_by(email = login_form.email.data).first()
         if user is not None and user.verify_password(login_form.password.data):
