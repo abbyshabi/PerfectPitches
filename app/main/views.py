@@ -15,7 +15,7 @@ def index():
     title = 'Home- Welcome to Pitches'
 
     form = PostForm()
-    return render_template('index.html', form=form, posts=posts)
+    return render_template('index.html', form=form)
 
 @main.route('/user/<uname>')
 def profile(uname):
