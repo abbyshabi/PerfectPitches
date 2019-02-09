@@ -1,0 +1,46 @@
+{% extends 'base.html'%} {% import "bootstrap/wtf.html" as wtf %} {% block content %} {% if current_user.is_authenticated %}
+{% import 'macros.html' as macro%}
+
+    </div>
+    <div class="col-xs-4">
+      <div class="well" style="margin-top:10%; margin-bottom:10%">
+        <h1 class="text-center">HEY THERE!</h1>
+        <h2 class="text-center">Welcome to Blogger</h2>
+      </div>
+      <div class="col-xs-4">
+      </div>
+    </div>
+  </div>
+  {% endif %} {% block styles%} {{ super() }}
+  <link href="https://fonts.googleapis.com/css?family=Acme|Berkshire+Swash|Bree+Serif|Courgette|Lobster|Sedgwick+Ave+Display|Yanone+Kaffeesatz" rel="stylesheet">
+  <style>
+    /*font-family: 'Courgette', cursive;
+font-family: 'Sedgwick Ave Display', cursive;
+font-family: 'Lobster', cursive;
+font-family: 'Yanone Kaffeesatz', sans-serif;
+font-family: 'Bree Serif', serif;
+font-family: 'Acme', sans-serif;
+font-family: 'Berkshire Swash', cursive;*/
+    * {
+      box-sizing: border-box;
+    }
+    h1 {
+      font-family: 'Berkshire Swash', cursive;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 3.5em;
+      margin-top: 10%;
+    }
+    h2 {
+      font-family: 'Berkshire Swash', cursive;
+      font-weight: 400;
+      font-size: 2.5em;
+    }
+    p {
+      font-size: 20px;
+    }
+    .wrap {
+      background-color: #2471A3;
+    }
+  </style>
+  {% endblock %} {% endblock %}
