@@ -1,5 +1,4 @@
 virtual/
 *.pyc
-start.sh/
-start/
-.start
+*.sh
+virtual/
