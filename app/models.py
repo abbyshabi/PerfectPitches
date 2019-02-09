@@ -62,3 +62,18 @@ class Post(db.Model):
         db.session.add(self)
         db.session.commit()
 
+class Comment(db.Model):
+     
+    __tablename__ = 'comments'
+
+    id = db.Column(db.Integer, primary_key = True)
+    body = db.column(db.Text)
+    author = db.column(db.Text)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    pitch_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
+
+
+    def save_comment(self):
+        db.session.add(self)
+        db.session.commit()
+
