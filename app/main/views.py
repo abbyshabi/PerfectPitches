@@ -55,7 +55,6 @@ def update_pic(uname):
     return redirect(url_for('main.profile',uname=uname))
 
 
-    
 @main.route('/post/<category>')
 def post(category):
     
@@ -65,3 +64,29 @@ def post(category):
         post = Post.query.filter_by(category = category).order_by(Post.date.desc()).all()
 
     return render_template('post.html', post = post ,title = category.upper())
+
+@main.route('/new/post/<uname>', methods = ['GET','POST'])
+@login_required
+def new_post(uname):
+    form = PostForm()
+    title = 'Express yourself'
+    user = User.query.filter_by(username = uname).first()
+
+    if user is None:
+        abort(404)
+      
+    if form.validate_on_submit():
+        title = form.title.data
+        post = form.post.data
+        category = form.category.data 
+        dateNow = datetime.datetime.now()
+        date = str(dateNow)
+       
+        add_post = Post(title = title,body=post,category=category,user=user,date=date)
+        add_post.save_post()
+        posts = Post.query.all()
+        return redirect(url_for('main.post',category = category ))
+    return render_template('new_post.html', form = form, title =title)
+
+    title = f'{movie.title} review'
+    return render_template('new_review.html',title = title, review_form=form, movie=movie)

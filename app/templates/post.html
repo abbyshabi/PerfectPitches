@@ -37,7 +37,7 @@
         {% else %}
             <h2>There are no pitches in this category</h2>
             {% if current_user.is_authenticated %}
-            
+            <a href="{{url_for('main.new_post',uname = current_user.username)}}"><button class="btn btn-info">Add A Pitch</button></a>
             {% endif %}
         {% endif %}
     </div>
