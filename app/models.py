@@ -34,7 +34,7 @@ class User(UserMixin,db.Model):
     def __repr__(self):
         return f'User {self.username}'
 
-        
+
 class Role(db.Model):
     __tablename__ = 'roles'
 
@@ -45,3 +45,20 @@ class Role(db.Model):
 
     def __repr__(self):
         return f'User {self.name}'
+
+class Post(db.Model):
+
+    __tablename__ = 'posts'
+
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    def save_post(self):
+        '''
+        Function to save a new blog.
+        '''
+        db.session.add(self)
+        db.session.commit()
+
