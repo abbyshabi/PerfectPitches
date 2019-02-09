@@ -1,45 +1,57 @@
-from flask import render_template,redirect,url_for,flash,request
-from . import auth
-from flask_login import login_user,logout_user,login_required
-from ..models import User,Post
-from .forms import LoginForm,RegistrationForm
+from flask import render_template, request, redirect, url_for, abort
+from . import main
+from ..models import User, Post,Comment
+from .forms import PostForm
 from .. import db
-#from ..email import mail_message
-
-@auth.route('/login',methods=['GET','POST'])
-def login():
-    login_form = LoginForm()
-    category = None
-    if login_form.validate_on_submit():
-        user = User.query.filter_by(email = login_form.email.data).first()
-        if user is not None and user.verify_password(login_form.password.data):
-            login_user(user,login_form.remember.data)
-            return redirect(request.args.get('next') or url_for('main.index'))
-            
-
-        flash('Invalid username or Password')
-
-    title = "watchlist login"
-    return render_template('auth/login.html',login_form = login_form,title=title)
+from flask_login import login_user, logout_user, login_required, current_user
+# from ..email import mail_message
+import datetime
 
 
-@auth.route('/logout')
+@main.route('/')
+def index():
+    """View root page function that returns index page and the various news sources"""
+
+    title = 'Home- Welcome to Pitches'
+    form = PostForm()
+    return render_template('index.html', form=form)
+
+@main.route('/user/<uname>')
+def profile(uname):
+    user = User.query.filter_by(username = uname).first()
+
+    if user is None:
+        abort(404)
+
+    return render_template("profile/profile.html", user = user)
+
+@main.route('/user/<uname>/update',methods = ['GET','POST'])
 @login_required
-def logout():
-    logout_user()
-    flash('You have been successfully logged out')
-    return redirect(url_for("main.index"))
+def update_profile(uname):
+    user = User.query.filter_by(username = uname).first()
+    if user is None:
+        abort(404)
 
-@auth.route('/register',methods = ["GET","POST"])
-def register():
-    form = RegistrationForm()
+    form = UpdateProfile()
+
     if form.validate_on_submit():
-        user = User(email = form.email.data, username = form.username.data,password = form.password.data)
+        user.bio = form.bio.data
+
         db.session.add(user)
         db.session.commit()
 
-        mail_message("Welcome to watchlist","email/welcome_user",user.email,user=user)
+        return redirect(url_for('.profile',uname=user.username))
 
-        return redirect(url_for('auth.login'))
-        title = "New Account"
-    return render_template('auth/register.html',registration_form = form)
+    return render_template('profile/update.html')
+
+@main.route('/post/<category>')
+def post(category):
+    user=User.query.filter_by(id=id).first()
+    post = None
+   
+    if category == 'all':
+        post = Post.query.order_by(Post.date.desc())
+    else :
+        post = Post.query.filter_by(category = category).order_by(Post.time.desc()).all()
+
+    return render_template('post.html', post = post ,title = category.upper())
