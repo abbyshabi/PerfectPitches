@@ -52,3 +52,8 @@ def update_profile(uname):
         return redirect(url_for('.profile',uname=user.username))
 
     return render_template('profile/update.html')
+
+@main.route('/pitch/<int:id>')
+def pitch(id):
+    post = Post.query.get_or_404(id)
+    return render_template('posts.html', posts=[post])
