@@ -4,7 +4,6 @@ from ..models import User, Post,Comment
 from .forms import PostForm
 from .. import db
 from flask_login import login_user, logout_user, login_required, current_user
-# from ..email import mail_message
 import datetime
 
 
@@ -59,12 +58,10 @@ def update_pic(uname):
     
 @main.route('/post/<category>')
 def post(category):
-    user=User.query.filter_by(id=id).first()
-    post = None
-   
+    
     if category == 'all':
         post = Post.query.order_by(Post.date.desc())
     else :
-        post = Post.query.filter_by(category = category).order_by(Post.time.desc()).all()
+        post = Post.query.filter_by(category = category).order_by(Post.date.desc()).all()
 
     return render_template('post.html', post = post ,title = category.upper())

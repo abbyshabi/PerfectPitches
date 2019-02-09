@@ -1,3 +1,4 @@
-Hello {{user.username}}
-Welcome to Watchlist
-We have just seen you have signed up for our application and want to welcome you to the family. Please enjoy the reviews of all your  favourite films.
+Hi {{user.username}} !
+Welcome to Pitchy-Pitches
+Thanks for sigining up and we are most delighted to have you here! .
+Please feel free to always express yourself and hit the home run :D
