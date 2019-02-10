@@ -51,8 +51,9 @@ class Post(db.Model):
     __tablename__ = 'posts'
 
     id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.Text)
     body = db.Column(db.Text)
-    date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    date = db.Column(db.String)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     category = db.Column(db.String)
 
