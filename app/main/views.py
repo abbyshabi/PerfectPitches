@@ -105,7 +105,7 @@ def comment(uname,post_id):
     if form.validate_on_submit():
         body = form.comment.data
         name = form.name.data
-        new_comment = Comment(body=body,user = user)
+        new_comment = Comment(body=body)
         new_comment.save_comment()
         
         return redirect(url_for("main.show_comments",id = id))
@@ -115,6 +115,7 @@ def comment(uname,post_id):
 @login_required
 def show_comments(post_id):
     
+    comments = None
     post = Post.query.filter_by(id = post_id).first()
     comments = post.get_post_comments()
 

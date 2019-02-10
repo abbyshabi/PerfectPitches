@@ -67,7 +67,7 @@ class Post(db.Model):
 
     def get_post_comments(self):
         post = Post.query.filter_by(id = self.id).first()
-        comments = Comment.query.filter_by(id = post.id).first()
+        comments = Comment.query.filter_by(id = post.id)
         return comments
 
 class Comment(db.Model):

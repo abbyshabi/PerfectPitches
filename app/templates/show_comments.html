@@ -8,8 +8,8 @@
 {% block content%}
     <div class="container">
     <div class="row comment-row">
-        <h3 class="comment-title">Comments for <strong>{{post.title | upper }}</strong></h3>
-        <a  href="{{url_for('main.comment',uname = current_user.id, post_id = post.id)}}"><button class="btn btn-info mr-0">Add
+        <h3 class="comment-title">Comments for <strong>{{post.title | upper }}</h3>
+        <a class="post-comment" href="{{url_for('main.comment',uname = current_user.username, post_id = post.id)}}"><button class="btn btn-info mr-0">Add
                 a comment</button></a>
 
 
@@ -19,11 +19,10 @@
             {%for comment in comments%}
             <div class="row">
                 <div class="col-xs-1 col-md-1 col-lg-1">
-   
+                  
                 </div>
-                <div class="col">
-                    <p ><strong>{{comment.user.name | upper}}</strong></a>: " {{comment.content}} "</p>
-   
+                <p>{{comment.content}} "</p>
+                 
                 </div>
             </div>
             <hr>    
