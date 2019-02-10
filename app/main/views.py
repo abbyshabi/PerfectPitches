@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, abort
 from . import main
 from ..models import User, Post,Comment
-from .forms import PostForm
+from .forms import PostForm,CommentForm,UpdateProfile
 from .. import db
 from flask_login import login_user, logout_user, login_required, current_user
 import datetime
@@ -24,12 +24,7 @@ def profile(uname):
 
     return render_template("profile/profile.html", user = user)
 
-@main.route("/<uname>/profile")
-def user(uname):
-    user = User.query.filter_by(id = user_id).first()
-    posts = Post.query.filter_by(username = uname).order_by(Pitch.time.desc())
-    title = user.name.upper()
-    return render_template("user.html", posts= posts, user = user,title = title)
+
 
 @main.route('/user/<uname>/update',methods = ['GET','POST'])
 @login_required
@@ -99,3 +94,28 @@ def new_post(uname):
 
     title = f'{movie.title} review'
     return render_template('new_review.html',title = title, review_form=form, movie=movie)
+
+@main.route('/post/<post_id>/add/comment', methods = ['GET','POST'])
+@login_required
+def comment(uname,post_id):
+    user = User.query.filter_by(username = uname).first()
+    post = Post.query.filter_by(id = post_id).first()
+    form = CommentForm()
+
+    if form.validate_on_submit():
+        body = form.comment.data
+        name = form.name.data
+        new_comment = Comment(body=body,user = user)
+        new_comment.save_comment()
+        
+        return redirect(url_for("main.show_comments",id = id))
+    return render_template("comment.html", form = form, post = post)
+
+@main.route('/<post_id>/comments')
+@login_required
+def show_comments(post_id):
+    
+    post = Post.query.filter_by(id = post_id).first()
+    comments = post.get_post_comments()
+
+    return render_template('show_comments.html',comments= comments,post= post)

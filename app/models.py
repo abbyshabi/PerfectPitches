@@ -56,13 +56,19 @@ class Post(db.Model):
     date = db.Column(db.String)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     category = db.Column(db.String)
+    comments = db.relationship("Comment", backref = "post", lazy = "dynamic")
 
     def save_post(self):
         '''
-        Function to save a new blog.
+        Function to save a new pitch
         '''
         db.session.add(self)
         db.session.commit()
+
+    def get_post_comments(self):
+        post = Post.query.filter_by(id = self.id).first()
+        comments = Comment.query.filter_by(id = post.id).first()
+        return comments
 
 class Comment(db.Model):
      
@@ -79,8 +85,6 @@ class Comment(db.Model):
         db.session.add(self)
         db.session.commit()   
         
-    def __repr__(self):
-        return f"Post('{self.title}', '{self.date_posted}')"
     
 
 
