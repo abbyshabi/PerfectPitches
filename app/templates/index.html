@@ -14,12 +14,29 @@
 							<h1>Pitchy-Pitches</h1>
 							<p>Welcome to Pitchy-Pitches..... remember to always express yourself and hit the home run</p>
 						</header>
-            {% if current_user.is_authenticated %}
-            <li><a href="{{url_for('main.profile',uname=current_user.username)}}">Profile</a></li>
-            <li><a href="{{url_for('auth.logout')}}">Sign out</a></li>
-            {% else %}
-            <li><a href="{{url_for('auth.login')}}">Sign in</a></li>
-            {%endif%}
+						{% if current_user.is_authenticated %}
+						<div class="box">
+								
+								<div class="inner">
+										<a href="{{url_for('main.profile',uname=current_user.username)}}"class="button fit">Profile</a>
+								</div>
+							</div>
+							<div class="box">
+								
+									<div class="inner">
+										<a href="{{url_for('auth.logout')}}"  class="button style2 fit">Sign out</a>
+									</div>
+								</div>
+						{% else %}
+						<div class="box">
+								
+								<div class="inner">
+										<a href="{{url_for('auth.login')}}" class="button style2 fit">Sign in</a>
+								</div>
+							</div>
+           
+						{%endif%}
+						<a href="#main" href="{{url_for('static',filename='photos/arrow.svg')}}"class="more">View </a>
 					</div>
                 </section>
                 <div id="main">
@@ -32,35 +49,35 @@
 							<div class="box">
 							
 								<div class="inner">
-                                    <a href="{{url_for('main.post',category='product')}}">Product</a>
+                      <a href="{{url_for('main.post',category='product')}}" class="button fit">Product</a>
 								</div>
 							</div>
 
 							<div class="box">
 								
 								<div class="inner">
-									<a href="{{url_for('main.post',category='pick-up')}}">Pick Up Lines</a>
+									<a href="{{url_for('main.post',category='pick-up')}}" class="button style2 fit">Pick Up Lines</a>
 								</div>
 							</div>
 
 							<div class="box">
 								
 								<div class="inner">
-                                    <a href="{{url_for('main.post',category='funny')}}">Comedy</a>
+                                    <a href="{{url_for('main.post',category='funny')}}" class="button style3 fit">Comedy</a>
 								</div>
 							</div>
 
 							<div class="box">
 								
 								<div class="inner">
-                                    <a href="{{url_for('main.post',category='cheesy')}}">Cheesy</a>	
+                                    <a href="{{url_for('main.post',category='cheesy')}}" class="button style2 fit">Cheesy</a>	
 								</div>
 							</div>
 
 							<div class="box">
 							
 								<div class="inner">
-                                    <a href="{{url_for('main.post',category='random')}}">Random</a>
+                                    <a href="{{url_for('main.post',category='random')}}" class="button style3 fit"> Random</a>
 								</div>
 							</div>
 
@@ -68,7 +85,7 @@
 								
 								<div class="inner">
                                    
-                                    <a href="{{url_for('main.post',category='all')}}">All</a>
+                                    <a href="{{url_for('main.post',category='all')}}" class="button fit">All</a>
 								</div>
 							</div>
 

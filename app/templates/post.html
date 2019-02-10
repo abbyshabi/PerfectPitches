@@ -1,60 +1,83 @@
-
-
-<link rel="stylesheet" href="{{url_for('static',filename='css/styles.css')}}">
-
 {% block content %}
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-
-    <div class="w3-center">
-        {% for message in get_flashed_messages() %}
-            <div class="alert alert-success">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                {{ message }}
-            </div>
-        {% endfor %}
-        {% if current_user.is_authenticated %}
-        <a href="{{url_for('main.new_post',uname = current_user.username)}}"><button class="btn btn-info">Add A Pitch</button></a>
-        {% endif %}
-    <header class="w3-container w3-center w3-padding-32"> 
-    <h1 > <b>{{title | upper}} PITCHES</b></h1>
-    </header>
-    <div class="w3-col l8 s12">
-        {% if posts %}
-            {% for row in posts | batch(2) %}
-            <div class="box">
-                {% for post in row %}
-                <div class="inner">
-                    <h3>{{post.title | upper}}</h3>
-                    <p>Poster: <a href="{{url_for('main.profile', uname = current_user.username)}}"><strong>{{current_user.username}}</strong></a></p>
-                    
-                    <p> Pitch: {{post.post}}</p>
-                    <p>CATEGORY: <strong>{{post.category}}</strong></p>
-                    <p>Date: <strong>{{post.date}}</strong> </p>
-                    <div>
-                        <div>
+<head>
+		<title>Pitchy-Pitches</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}">
+	</head>
+	<body id="top">
+				<section id="banner" data-video="images/banner">
+					<div class="inner">
+						<header>
+							<h1>Pitchy-Pitches</h1>
+							<p>Welcome to Pitchy-Pitches..... remember to always express yourself and hit the home run</p>
+                        </header>
+                        <div class="box">
+								<div class="inner">
+										<a href="/"class="button style3 fit">Home</a>
+								</div>
+							</div>
+						{% if current_user.is_authenticated %}
+						<div class="box">
+								<div class="inner">
+										<a href="{{url_for('main.profile',uname=current_user.username)}}"class="button fit">Profile</a>
+								</div>
+							</div>
+							<div class="box">
+									<div class="inner">
+										<a href="{{url_for('auth.logout')}}"  class="button style2 fit">Sign out</a>
+									</div>
+								</div>
+						{% else %}
+						<div class="box">
+								
+								<div class="inner">
+										<a href="{{url_for('auth.login')}}" class="button style2 fit">Sign in</a>
+								</div>
+							</div>
+                            {%endif%}
                             {% if current_user.is_authenticated %}
-                            <a href="{{url_for('main.show_comments',post_id = post.id)}}"><button class="btn btn-info">view comments</button></a>
+                            <a href="{{url_for('main.new_post',uname = current_user.username)}}" class="button style3 fit">Pitch</a>
                          {% endif %}
-                        </div>
                     </div>
-                </div>
-                <div>
-                    {% if current_user.is_authenticated %}
-                        <a href="{{url_for('main.new_post',uname = current_user.username)}}"><button class="btn btn-info">Add A Pitch</button></a>
-                     {% endif %}
-                </div>
-                {% endfor %}
-            </div> 
-            {% endfor %}
-        {% else %}
-            <h2>There are no pitches in this category</h2>
-            <h3> Do you want to sign to post a pitch? <ul><a href="{{url_for('auth.login')}}">Sign in</a></ul></h3>
-            {% if current_user.is_authenticated %}
-            <a href="{{url_for('main.new_post',uname = current_user.username)}}"><button class="btn btn-info">Add A Pitch</button></a>
-            {% endif %}
-        {% endif %}
-    </div>
+                </section>
+                            <div class="main">
+                                
+                                <div class="inner">
+
+                                        <!-- Boxes -->
+                                        <h2 class="text-center">{{title | upper}} PITCHES</h2>
+                                            
+                                                    {% if posts %}
+                                                    {% for row in posts | batch(2) %}
+                                                <div class="box">
+                                                        {% for post in row %}
+                                                    <div class="inner">
+                                                            <h3>{{post.title | upper}}</h3>
+                                                            <p>Poster: <a href="{{url_for('main.profile', uname = current_user.username)}}">{{current_user.username}}</a></p>
+
+                                                            <p> Pitch: {{post.body}}</p>
+                                                            <p>CATEGORY: <strong>{{post.category}}</strong></p>
+                                                            <p>Date: <strong>{{post.date}}</strong> </p>
+                                                    </div>
+                                                    <div>
+                                                    {% if current_user.is_authenticated %}
+                                                    <a href="{{url_for('main.show_comments',post_id = post.id)}}" class="button fit">view comments</a>
+                                                 {% endif %}
+                                                </div>
+                                                </div>
+                                         
+                                    </div>
+ 
+  
+  
+                                
+                                           
+                                        </div>
+                                        {% endfor %}
+                                    </div> 
+                                    {% endfor %}
+                                {
+                                {% endif %}
+                            </div>
 {% endblock %}

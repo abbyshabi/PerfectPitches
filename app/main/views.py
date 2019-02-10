@@ -2,7 +2,7 @@ from flask import render_template, request, redirect, url_for, abort
 from . import main
 from ..models import User, Post,Comment
 from .forms import PostForm,CommentForm,UpdateProfile
-from .. import db
+from .. import db,photos
 from flask_login import login_user, logout_user, login_required, current_user
 import datetime
 
@@ -80,20 +80,19 @@ def new_post(uname):
       
     if form.validate_on_submit():
         title = form.title.data
-        post = form.post.data
+        body = form.post.data
         category = form.category.data 
         dateNow = datetime.datetime.now()
         date = str(dateNow)
     
 
-        add_post = Post(title = title,body=body,category=category,date=date, user = user)
+        add_post = Post(title = title,body=body,category=category,date=date)
         add_post.save_post()
         posts = Post.query.all()
         return redirect(url_for('main.post',category = category ))
-    return render_template('new_post.html', form = form, title =title)
+    return render_template('new_post.html', form = form, title =title,body = posts)
 
-    title = f'{movie.title} review'
-    return render_template('new_review.html',title = title, review_form=form, movie=movie)
+ 
 
 @main.route('/post/<post_id>/add/comment', methods = ['GET','POST'])
 @login_required
