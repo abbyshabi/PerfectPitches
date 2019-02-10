@@ -21,6 +21,8 @@ class Config:
 class TestConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://AbbyShabi:dammy@localhost/pitch_test'
 
+    heroku pg:push postgres://AbbyShabi:dammy@localhost:8000/pitch/ DATABASE --app secure-gorge-4090
+
 
 
 class ProdConfig(Config):
