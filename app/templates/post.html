@@ -1,33 +1,40 @@
-{% extends "base.html" %}
 
-{% block styles%}
-{{ super() }}
+
 <link rel="stylesheet" href="{{url_for('static',filename='css/styles.css')}}">
-{% endblock%}
+
 {% block content %}
-    <div class="container">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+
+    <div class="w3-center">
         {% for message in get_flashed_messages() %}
             <div class="alert alert-success">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 {{ message }}
             </div>
         {% endfor %}
-    <h1 class="text-center">{{title | upper}} PITCHES</h1>
-        {% if pitches %}
-            {% for row in pitches | batch(2) %}
-            <div class="row pitch-row">
-                {% for pitch in row %}
-                <div class="col-md-5 pitch-card">
-                    <h3 class="source-name">{{pitch.title | upper}}</h3>
-                    <p>Posted by <a href="{{url_for('main.user',user_id = pitch.user.id)}}"><strong>{{pitch.user.name}}</strong></a></p>
-                    <p>Date: <strong>{{pitch.date}}</strong> at <strong>{{pitch.time}}</strong></p>
-                    <p>"{{pitch.content}}"</p>
-                    <p>CATEGORY: <strong>{{pitch.category | upper}}</strong></p>
-                    <div class="extras">
+    <header class="w3-container w3-center w3-padding-32"> 
+    <h1 > <b>{{title | upper}} PITCHES</b></h1>
+    </header>
+    <div class="w3-col l8 s12">
+        {% if posts %}
+            {% for row in posts | batch(2) %}
+            <div class="box">
+                {% for post in row %}
+                <div class="inner">
+                    <h3>{{post.title | upper}}</h3>
+                    <p>Poster: <a href="{{url_for('main.profile', uname = current_user.username)}}"><strong>{{current_user.username}}</strong></a></p>
+                    
+                    <p> Pitch: {{post.post}}</p>
+                    <p>CATEGORY: <strong>{{post.category}}</strong></p>
+                    <p>Date: <strong>{{post.date}}</strong> </p>
+                    <div>
                         <div>
                             {% if current_user.is_authenticated %}
-                            <a class="pitch-comment" href="{{url_for('main.view_comments',pitch_id = pitch.id)}}">View Comments</a>
-                            {% endif %}
+                                <a href="{{url_for('main.new_post',uname = current_user.username)}}"><button class="btn btn-info">Add A Pitch</button></a>
+                             {% endif %}
                         </div>
                     </div>
                 </div>
@@ -36,6 +43,7 @@
             {% endfor %}
         {% else %}
             <h2>There are no pitches in this category</h2>
+            <h3> Do you want to sign to post a pitch? <ul><a href="{{url_for('auth.login')}}">Sign in</a></ul></h3>
             {% if current_user.is_authenticated %}
             <a href="{{url_for('main.new_post',uname = current_user.username)}}"><button class="btn btn-info">Add A Pitch</button></a>
             {% endif %}

@@ -1,51 +1,89 @@
-{% extends "base.html" %}
+<!DOCTYPE HTML>
 
-{% block styles%}
+<html>
+	<head>
+		<title>Pitchy-Pitches</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}">
+	</head>
+	<body id="top">
+				<section id="banner" data-video="images/banner">
+					<div class="inner">
+						<header>
+							<h1>Pitchy-Pitches</h1>
+							<p>Welcome to Pitchy-Pitches..... remember to always express yourself and hit the home run</p>
+						</header>
+            {% if current_user.is_authenticated %}
+            <li><a href="{{url_for('main.profile',uname=current_user.username)}}">Profile</a></li>
+            <li><a href="{{url_for('auth.logout')}}">Sign out</a></li>
+            {% else %}
+            <li><a href="{{url_for('auth.login')}}">Sign in</a></li>
+            {%endif%}
+					</div>
+                </section>
+                <div id="main">
+					<div class="inner">
 
-{{ super() }}
-<link rel="stylesheet" href="{{url_for('static',filename='css/styles.css')}}">
-{% endblock%}
+                    <!-- Boxes -->
+                    <h2 class="text-center">Categories</h2>
+						<div class="thumbnails">
 
-{% block content %}
+							<div class="box">
+							
+								<div class="inner">
+                                    <a href="{{url_for('main.post',category='product')}}">Product</a>
+								</div>
+							</div>
 
-    <div class="container">
-        {% for message in get_flashed_messages() %}
-        <div class="alert alert-info">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            {{ message }}
-        </div>
-        {% endfor %}
-        {% if current_user.is_authenticated %}
-    <h1 class="text-center animated lightSpeedIn delay-0.4s">Welcome to PITCH PERFECT</h1>
-        <h2 class="text-center">Categories</h2>
-        <div class="row categories">
-            <div class="category col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                <a href="{{url_for('main.post',category='product')}}">Product</a>
-            </div>
-            <div class="category col-xs-12 col-sm-12 col-md-3 col-lg-3">
-<a href="{{url_for('main.post',category='promotion')}}">Promotional</a>
-            </div>
-            <div class="category col-xs-12 col-sm-12 col-md-3 col-lg-3">
-<a href="{{url_for('main.post',category='pick-up')}}">Pick Up Lines</a>
-            </div>
-            <div class="category col-xs-12 col-sm-12 col-md-3 col-lg-3">
-<a href="{{url_for('main.post',category='funny')}}">Funny</a>
-            </div>
-        </div>
-        <div class="row categories">
-            <div class="category col-xs-12 col-sm-12 col-md-3 col-lg-3">
-<a href="{{url_for('main.post',category='cheesy')}}">Cheesy</a>
-            </div>
-            <div class="category col-xs-12 col-sm-12 col-md-3 col-lg-3">
-<a href="{{url_for('main.post',category='boring')}}">Boring</a>
-            </div>
-            <div class="category col-xs-12 col-sm-12 col-md-3 col-lg-3">
-<a href="{{url_for('main.post',category='random')}}">Random</a>
-            </div>
-<div class="category col-xs-12 col-sm-12 col-md-3 col-lg-3">
-    <a href="{{url_for('main.post',category='all')}}">All</a>
-</div>
-        </div>
-    </div>
-    {%endif%}
-{% endblock %}
+							<div class="box">
+								
+								<div class="inner">
+									<a href="{{url_for('main.post',category='pick-up')}}">Pick Up Lines</a>
+								</div>
+							</div>
+
+							<div class="box">
+								
+								<div class="inner">
+                                    <a href="{{url_for('main.post',category='funny')}}">Comedy</a>
+								</div>
+							</div>
+
+							<div class="box">
+								
+								<div class="inner">
+                                    <a href="{{url_for('main.post',category='cheesy')}}">Cheesy</a>	
+								</div>
+							</div>
+
+							<div class="box">
+							
+								<div class="inner">
+                                    <a href="{{url_for('main.post',category='random')}}">Random</a>
+								</div>
+							</div>
+
+							<div class="box">
+								
+								<div class="inner">
+                                   
+                                    <a href="{{url_for('main.post',category='all')}}">All</a>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+
+<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

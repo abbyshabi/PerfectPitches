@@ -24,6 +24,13 @@ def profile(uname):
 
     return render_template("profile/profile.html", user = user)
 
+@main.route("/<uname>/profile")
+def user(uname):
+    user = User.query.filter_by(id = user_id).first()
+    posts = Post.query.filter_by(username = uname).order_by(Pitch.time.desc())
+    title = user.name.upper()
+    return render_template("user.html", posts= posts, user = user,title = title)
+
 @main.route('/user/<uname>/update',methods = ['GET','POST'])
 @login_required
 def update_profile(uname):
@@ -58,12 +65,13 @@ def update_pic(uname):
 @main.route('/post/<category>')
 def post(category):
     
+    posts= None
     if category == 'all':
-        post = Post.query.order_by(Post.date.desc())
+        posts = Post.query.order_by(Post.date.desc())
     else :
-        post = Post.query.filter_by(category = category).order_by(Post.date.desc()).all()
+        posts = Post.query.filter_by(category = category).order_by(Post.date.desc()).all()
 
-    return render_template('post.html', post = post ,title = category.upper())
+    return render_template('post.html', posts = posts ,title = category.upper())
 
 @main.route('/new/post/<uname>', methods = ['GET','POST'])
 @login_required
@@ -81,8 +89,9 @@ def new_post(uname):
         category = form.category.data 
         dateNow = datetime.datetime.now()
         date = str(dateNow)
-       
-        add_post = Post(title = title,body=post,category=category,user=user,date=date)
+    
+
+        add_post = Post(title = title,body=body,category=category,date=date, user = user)
         add_post.save_post()
         posts = Post.query.all()
         return redirect(url_for('main.post',category = category ))
