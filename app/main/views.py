@@ -90,7 +90,7 @@ def new_post(uname):
         add_post.save_post()
         posts = Post.query.all()
         return redirect(url_for('main.post',category = category ))
-    return render_template('new_post.html', form = form, title =title,body = posts)
+    return render_template('new_post.html', form = form, title =title)
 
  
 
