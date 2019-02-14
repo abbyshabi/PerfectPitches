@@ -96,26 +96,29 @@ def new_post(uname):
 
 @main.route('/post/<post_id>/add/comment', methods = ['GET','POST'])
 @login_required
-def comment(uname,post_id):
-    user = User.query.filter_by(username = uname).first()
+def comment(post_id):
+   
     post = Post.query.filter_by(id = post_id).first()
     form = CommentForm()
-
+ 
     if form.validate_on_submit():
-        body = form.comment.data
-        name = form.name.data
+        body = form.body.data
+      
         new_comment = Comment(body=body)
         new_comment.save_comment()
         
-        return redirect(url_for("main.show_comments",id = id))
+        return redirect(url_for("main.show_comments",post_id = post_id))
     return render_template("comment.html", form = form, post = post)
 
 @main.route('/<post_id>/comments')
 @login_required
 def show_comments(post_id):
     
-    comments = None
     post = Post.query.filter_by(id = post_id).first()
+    
     comments = post.get_post_comments()
 
-    return render_template('show_comments.html',comments= comments,post= post)
+    return render_template('show_comments.html',comments= comments,post=post)
+
+
+       

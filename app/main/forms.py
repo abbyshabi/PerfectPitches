@@ -20,5 +20,5 @@ class UpdateProfile(FlaskForm):
 
 class CommentForm(FlaskForm):
    
-    comment = TextAreaField('comment', validators=[Required()])
+    body = TextAreaField('comment', validators=[Required()])
     submit = SubmitField('Submit')

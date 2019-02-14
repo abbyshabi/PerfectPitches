@@ -56,7 +56,7 @@ class Post(db.Model):
     date = db.Column(db.String)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     category = db.Column(db.String)
-    comments = db.relationship("Comment", backref = "post", lazy = "dynamic")
+    comments = db.relationship("Comment", backref = "comment", lazy = "dynamic")
 
     def save_post(self):
         '''
@@ -68,22 +68,25 @@ class Post(db.Model):
     def get_post_comments(self):
         post = Post.query.filter_by(id = self.id).first()
         comments = Comment.query.filter_by(id = post.id)
+        
         return comments
+    
 
 class Comment(db.Model):
      
     __tablename__ = 'comments'
 
     id = db.Column(db.Integer, primary_key = True)
-    body = db.column(db.Text)
-    author = db.column(db.Text)
+    body = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    pitch_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
+    post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
 
 
     def save_comment(self):
         db.session.add(self)
         db.session.commit()   
+
+        
         
     
 
